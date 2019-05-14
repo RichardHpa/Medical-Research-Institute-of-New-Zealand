@@ -1,1 +1,1 @@
-# Medical-Research-Institute-of-New-Zealand
+# Medical Research Institute of New-Zealand
