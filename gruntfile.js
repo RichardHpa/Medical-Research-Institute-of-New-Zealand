@@ -1,5 +1,37 @@
 module.exports = function(grunt){
     grunt.initConfig({
+        sass:{
+            front: {
+                options: {
+                    style: 'expanded',
+                    sourcemap: 'none',
+                    noCache: true
+                },
+                files : {
+                    'assets/css/style.css':'assets/sass/front/style.scss'
+                }
+            },
+            admin: {
+                options: {
+                    style: 'expanded',
+                    sourcemap: 'none',
+                    noCache: true
+                },
+                files : {
+                    'assets/css/admin.css':'assets/sass/admin/admin.scss'
+                }
+            },
+            bootstrap: {
+                options: {
+                    style: 'expanded',
+                    sourcemap: 'none',
+                    noCache: true
+                },
+                files : {
+                    'assets/css/bootstrap.css':'assets/sass/bootstrap.scss'
+                }
+            }
+        },
         cssmin: {
           target: {
             files: [{
@@ -11,19 +43,6 @@ module.exports = function(grunt){
             }]
           }
         },
-        sass:{
-            dist:{
-                options: {                       // Target options
-                    style: 'expanded',
-                    sourcemap: 'none',
-                    noCache: true
-                },
-                files:{
-                    "assets/css/style.css":"assets/sass/style.scss",
-                    "assets/css/bootstrap.css":"assets/sass/bootstrap.scss"
-                }
-            }
-        },
         uglify:{
             my_target:{
                 files: {
@@ -31,20 +50,24 @@ module.exports = function(grunt){
                 }
             }
         },
-        watch: {
-            sass:{
-                files:["assets/sass/*.scss"],
-                tasks:["sass"]
+        watch : {
+            front: {
+                files : [ 'assets/sass/front/style.scss' ],
+                tasks : [ 'sass:front', 'cssmin' ]
             },
-            css:{
-                 files:["assets/css/style.css"],
-                 tasks:["cssmin"]
-             },
-             js:{
-                files:["assets/js/script.js"],
-                tasks:["uglify"]
+            admin: {
+                files : [ 'assets/sass/admin/admin.scss' ],
+                tasks : [ 'sass:admin', 'cssmin' ]
+            },
+            bootstrap: {
+                files : [ 'assets/sass/bootstrap.scss' ],
+                tasks : [ 'sass:bootstrap', 'cssmin' ]
+            },
+            js:{
+               files:["assets/js/script.js"],
+               tasks:["uglify"]
             }
-        }
+        },
     });
 
     grunt.loadNpmTasks('grunt-contrib-sass');
