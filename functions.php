@@ -20,23 +20,27 @@ function admin_my_enqueue(){
 add_action('admin_enqueue_scripts', 'admin_my_enqueue');
 
 
-add_theme_support( 'wp-block-styles' );
-add_theme_support( 'title-tag' );
-add_theme_support( 'custom-logo', array(
-    'height'      => 100,
-    'flex-width'  => true,
-));
-
 function customThemeSupport(){
     add_theme_support('menus');
     register_nav_menu('Primary', 'This is the main navigation at the top of the page');
     register_nav_menu('Secondary', 'This is the menu for the footer section of the page');
+
+    add_theme_support('post-thumbnails');
+    add_theme_support('post-formats', array('image', 'video', 'audio'));
+
+    add_theme_support( 'wp-block-styles' );
+    add_theme_support( 'title-tag' );
+    add_theme_support( 'custom-logo', array(
+        'height'      => 100,
+        'flex-width'  => true,
+    ));
 }
 add_action('init', 'customThemeSupport');
 
-
-
-
 require_once get_template_directory() . '/inc/class-wp-bootstrap-navwalker.php';
+
+require_once get_template_directory() . '/inc/social-icons.php';
+
+require_once get_template_directory() . '/inc/customizer.php';
 
 add_image_size( 'about-thumb', 400, 400, TRUE );
