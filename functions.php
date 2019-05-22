@@ -43,4 +43,8 @@ require_once get_template_directory() . '/inc/social-icons.php';
 
 require_once get_template_directory() . '/inc/customizer.php';
 
+require_once get_template_directory() . '/inc/custom_fields.php';
+
+require_once get_template_directory() . '/inc/custom_post_types.php';
+
 add_image_size( 'about-thumb', 400, 400, TRUE );
