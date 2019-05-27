@@ -159,3 +159,16 @@ body:not(.home) {
         height: 100%;
     }
 }
+
+.alumnis{
+    .row{
+        &:nth-child(even){
+            .alumni-image{
+                order: 2;
+            }
+            .alumni-text{
+                order: 1;
+            }
+        }
+    }
+}
