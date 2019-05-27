@@ -110,3 +110,26 @@ hr {
   padding: 0;
   list-style: none;
 }
+
+#ticker {
+  z-index: 100;
+  width: 100%;
+  background: white;
+}
+
+.ticker-label {
+  margin: 0;
+}
+
+.ticker-banner {
+  padding: 15px;
+}
+
+.ticker.fixed {
+  position: fixed;
+  bottom: 0;
+}
+
+.ticker .alert {
+  margin-bottom: 0;
+}

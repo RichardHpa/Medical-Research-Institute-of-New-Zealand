@@ -8,11 +8,15 @@ function customThemeEnqueues(){
     wp_enqueue_script('jquery');
     wp_enqueue_script('bootstrapScript', get_template_directory_uri() . '/assets/js/bootstrap.min.js', array('jquery'), '4.3.1', true);
     wp_enqueue_script('customScript', get_template_directory_uri() . '/assets/js/script.js', array('jquery'), '1.0.2', true);
+
+    if(is_front_page()){
+        wp_enqueue_script('recruitmentScript', get_template_directory_uri() . '/assets/js/recruitment-scroll.js', array(), '1.2.0', true);
+    }
 }
 add_action('wp_enqueue_scripts', 'customThemeEnqueues');
 
 function admin_my_enqueue(){
-    wp_enqueue_style('adminStyle', get_template_directory_uri() . '/assets/css/admin.css', array(), '1.0.2', 'all');
+    wp_enqueue_style('adminStyle', get_template_directory_uri() . '/assets/css/admin.min.css', array(), '1.0.2', 'all');
     wp_enqueue_style('adminJqueryUIStyle', get_template_directory_uri() . '/assets/css/jquery-ui.min.css', array(), '1.12.1', 'all');
     wp_enqueue_script('adminJqueryUIScript', get_template_directory_uri() . '/assets/js/jquery-ui.min.js', array(), '1.12.1', true);
     wp_enqueue_script('my_custom_script', get_template_directory_uri() . '/assets/js/admin.js', array(), '1.0.0', true);

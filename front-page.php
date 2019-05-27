@@ -58,7 +58,7 @@
             </div>
         </div>
     <?php endif; ?>
-
+</div>
     <?php
         $arg = array(
             'post_type' => 'recruiting',
@@ -68,32 +68,65 @@
         $recuitingPosts = new WP_Query($arg);
     ?>
     <?php if($recuitingPosts->have_posts()): ?>
-        <div class="container my-5">
-            <div class="row">
-                <div class="col-12">
-                    <p>
-                        The Institute regularly needs volunteers for studies, we currently have the following requirements.
-                        If you don't meet the criteria below but are still interested in volunteering for research studies,
-                        please contact Mathew mathew.williams@mrinz.ac.nz (or 04-805-0243) so that we can get in touch when
-                        future opportunities arise.
-                    </p>
+        <div class="third-block">
+            <div id="scroll-to">
+
+
+
+                <div id="ticker" class="ticker fixed">
+                    <div class="container-fluid ticker-banner">
+                        <div class="container">
+                            <div class="ticker-label">
+                                <div class="row">
+                                    <div class="col-12 col-sm-3">
+                                        <span><strong>Currently recruiting for:</strong></span>
+                                    </div>
+                                    <div class="col-12 col-sm-9">
+                                        <div id="studiescarousel" class="carousel slide" data-ride="carousel">
+                                            <div class="carousel-inner">
+                                                <?php $count = 0; ?>
+                                                <?php while($recuitingPosts->have_posts()): $recuitingPosts->the_post();?>
+                                                    <div class="carousel-item <?php if($count === 0): ?>active<?php endif; ?>"><a href="<?php echo esc_url(get_permalink()); ?>"><?php the_title(); ?></a></div>
+                                                    <?php $count++; ?>
+                                                <?php endwhile; ?>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </div>
-            <hr>
-            <div class="row">
-                <div class="col">
-                    <ul class="recruiting">
-                        <?php while($recuitingPosts->have_posts()): $recuitingPosts->the_post();?>
-                            <a href="<?php echo esc_url(get_permalink()); ?>">
-                                <li class="front-list"><strong><?php the_title(); ?></strong></li>
-                            </a>
-                        <?php endwhile; ?>
-                    </ul>
+
+
+
+
+
+
+                <div class="container">
+                    <div class="row">
+                        <div class="col-12">
+                            <p>
+                                The Institute regularly needs volunteers for studies, we currently have the following requirements.
+                                If you don't meet the criteria below but are still interested in volunteering for research studies,
+                                please contact Mathew mathew.williams@mrinz.ac.nz (or 04-805-0243) so that we can get in touch when
+                                future opportunities arise.
+                            </p>
+                            <hr>
+                                <ul class="recruiting">
+                                    <?php while($recuitingPosts->have_posts()): $recuitingPosts->the_post();?>
+                                        <a href="<?php echo esc_url(get_permalink()); ?>">
+                                            <li class="front-list"><strong><?php the_title(); ?></strong></li>
+                                        </a>
+                                    <?php endwhile; ?>
+                                </ul>
+                        </div>
+                    </div>
                 </div>
             </div>
         </div>
     <?php endif; ?>
-</div>
+
 
 
 
