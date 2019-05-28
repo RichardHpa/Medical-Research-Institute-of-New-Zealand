@@ -1,16 +1,16 @@
 <?php
 
-// function create_staff_tax() {
-// 	register_taxonomy(
-// 		'Staff-Group',
-// 		array(
-// 			'label' => 'Staff Group',
-// 			'rewrite' => array( 'slug' => 'staff-group' ),
-// 			'hierarchical' => true,
-// 		)
-// 	);
-// }
-// add_action( 'init', 'create_staff_tax' );
+function create_staff_tax() {
+	register_taxonomy(
+		'Staff-Group',
+		array(
+			'label' => 'Staff Group',
+			'rewrite' => array( 'slug' => 'staff-group' ),
+			'hierarchical' => true,
+		)
+	);
+}
+add_action( 'init', 'create_staff_tax' );
 
 function staff_init() {
     $labels = array(
