@@ -12,7 +12,7 @@
             <div class="row">
                 <?php if(has_post_thumbnail()): ?>
                     <div class="col-12 col-md-3">
-                        <?php the_post_thumbnail('medium', array('class' => 'img-fuild')); ?>
+                        <?php the_post_thumbnail('medium', array('class' => 'img-fluid')); ?>
                     </div>
                 <?php endif; ?>
                 <div class="col">

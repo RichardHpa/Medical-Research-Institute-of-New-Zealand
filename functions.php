@@ -19,7 +19,19 @@ function admin_my_enqueue(){
     wp_enqueue_style('adminStyle', get_template_directory_uri() . '/assets/css/admin.min.css', array(), '1.0.2', 'all');
     wp_enqueue_style('adminJqueryUIStyle', get_template_directory_uri() . '/assets/css/jquery-ui.min.css', array(), '1.12.1', 'all');
     wp_enqueue_script('adminJqueryUIScript', get_template_directory_uri() . '/assets/js/jquery-ui.min.js', array(), '1.12.1', true);
-    wp_enqueue_script('my_custom_script', get_template_directory_uri() . '/assets/js/admin.js', array(), '1.0.0', true);
+    wp_enqueue_script('my_custom_script', get_template_directory_uri() . '/assets/js/admin.js', array(), '1.0.2', true);
+
+    $screen = get_current_screen();
+    if($screen->post_type === 'post' && ($screen->action === 'add' || $_GET['action'] === 'edit') ){
+        wp_enqueue_script('change_post_formats_script', get_template_directory_uri() . '/assets/js/change_post_formats.js', array('jquery'), '1.0.2', true);
+        $format = get_post_format($_GET['post']);
+        wp_localize_script('change_post_formats_script', 'formatObject', array(
+            'format' => $format
+        ));
+    }
+
+
+
 }
 add_action('admin_enqueue_scripts', 'admin_my_enqueue');
 
@@ -77,3 +89,50 @@ function restrict_post_deletion($post_id) {
 }
 add_action('wp_trash_post', 'restrict_post_deletion', 10, 1);
 add_action('before_delete_post', 'restrict_post_deletion', 10, 1);
+
+/* Flush your rewrite rules */
+function bt_flush_rewrite_rules() {
+     flush_rewrite_rules();
+}
+add_action( 'after_switch_theme', 'bt_flush_rewrite_rules' );
+
+/*
+	==========================================
+	Pagination
+	==========================================
+*/
+function pagination($pages = '', $range = 4){
+    $showitems = ($range * 2)+1;
+
+    global $paged;
+    if(empty($paged)) $paged = 1;
+
+    if($pages == '')
+    {
+        global $wp_query;
+        $pages = $wp_query->max_num_pages;
+        if(!$pages)
+        {
+            $pages = 1;
+        }
+    }
+
+    if(1 != $pages)
+    {
+        echo "<div class=\"pagination\"><span>Page ".$paged." of ".$pages."</span>";
+        if($paged > 2 && $paged > $range+1 && $showitems < $pages) echo "<a href='".get_pagenum_link(1)."'>&laquo; First</a>";
+        if($paged > 1 && $showitems < $pages) echo "<a href='".get_pagenum_link($paged - 1)."'>&lsaquo; Previous</a>";
+
+        for ($i=1; $i <= $pages; $i++)
+        {
+            if (1 != $pages &&( !($i >= $paged+$range+1 || $i <= $paged-$range-1) || $pages <= $showitems ))
+            {
+                echo ($paged == $i)? "<span class=\"current\">".$i."</span>":"<a href='".get_pagenum_link($i)."' class=\"inactive\">".$i."</a>";
+            }
+        }
+
+        if ($paged < $pages && $showitems < $pages) echo "<a href=\"".get_pagenum_link($paged + 1)."\">Next &rsaquo;</a>";
+        if ($paged < $pages-1 &&  $paged+$range-1 < $pages && $showitems < $pages) echo "<a href='".get_pagenum_link($pages)."'>Last &raquo;</a>";
+        echo "</div>\n";
+    }
+}

@@ -1,5 +1,4 @@
 <?php
-
     $id = get_the_id();
     $videoURL = get_post_meta( $id , 'a_link', true);
     $embed_code = wp_oembed_get($videoURL);

@@ -5,14 +5,14 @@ $metaboxes = array(
         'title' => __('Audio Information', 'MedicalResearchInstituteOfNewZealand'),
         'applicableto' => 'post',
         'location' => 'normal',
-        'display_condition' => 'post-format-audio',
         'priority' => 'low',
         'fields' => array(
             'a_link' => array(
                 'title' => __('Link: ', 'MedicalResearchInstituteOfNewZealand'),
                 'type' => 'text',
                 'description' => 'Incert the src url for the audio, will be found in the embed section',
-                'size' => 100
+                'size' => 100,
+                'condition' => 'audio'
             )
         )
     ),
@@ -20,14 +20,14 @@ $metaboxes = array(
         'title' => __('Video Information', 'MedicalResearchInstituteOfNewZealand'),
         'applicableto' => 'post',
         'location' => 'normal',
-        'display_condition' => 'post-format-video',
         'priority' => 'low',
         'fields' => array(
             'a_link' => array(
                 'title' => __('Embed URL Link: ', 'MedicalResearchInstituteOfNewZealand'),
                 'type' => 'text',
                 'description' => 'Insert the embed src url for the video, will be found in the embed section',
-                'size' => 100
+                'size' => 100,
+                'condition' => 'video'
             )
         )
     ),
@@ -155,25 +155,39 @@ function show_metaboxes( $post, $args ) {
 
     if ( sizeof( $fields ) ) {
         foreach ( $fields as $id => $field ) {
+
+            if(isset($field['condition'])){
+                $condition = 'class="conditionalField" data-condition="'.$field['condition'].'"';
+            } else {
+                $condition = '';
+            }
+
             switch ( $field['type'] ) {
                 default:
                 case "text":
-                    $output .= '<label for="' . $id . '">' . $field['title'] . '</label><input class="customInput" id="' . $id . '" type="text" name="' . $id . '" value="' . $custom[$id][0] . '" style="width: 100%;" />';
-                    break;
+                    $output .= '<div id="'.$id.'" '.$condition.' >';
+                        $output .= '<label for="' . $id . '">' . $field['title'] . '</label>';
+                        $output .= '<input class="customInput" id="' . $id . '" type="text" name="' . $id . '" value="' . $custom[$id][0] . '" style="width: 100%;" />';
+                    $output .= '</div>';
+                break;
                 case "date":
-                    $output .= '<label for="' . $id . '">' . $field['title'] . '</label><br><input class="datepick" id="' . $id . '" type="text" name="' . $id . '" value="' . $custom[$id][0] . '" /><br>';
-                    break;
+                    $output .= '<div id="'.$id.'" '.$condition.' >';
+                        $output .= '<label for="' . $id . '">' . $field['title'] . '</label><br><input class="datepick" id="' . $id . '" type="text" name="' . $id . '" value="' . $custom[$id][0] . '" /><br>';
+                    $output .= '</div>';
+                break;
                 case "radio":
-                    $value = get_post_meta( $post->ID, 'group', true );
-                    $output .= '<label for="' . $id . '">' . $field['title'] . '</label><br>';
-                    foreach($field['values'] as $singleValue){
-                        $output .= '<div class="radio"><label><input type="radio" id="' . $id . '" name="'.$id.'" value="'.$singleValue.'"';
-                        if($value == $singleValue){
-                            $output .= 'checked';
+                    $output .= '<div id="'.$id.'" '.$condition.' >';
+                        $value = get_post_meta( $post->ID, 'group', true );
+                        $output .= '<label for="' . $id . '">' . $field['title'] . '</label><br>';
+                        foreach($field['values'] as $singleValue){
+                            $output .= '<div class="radio"><label><input type="radio" id="' . $id . '" name="'.$id.'" value="'.$singleValue.'"';
+                            if($value == $singleValue){
+                                $output .= 'checked';
+                            }
+                            $output .= '> '.$singleValue.'</label></div>';
                         }
-                        $output .= '> '.$singleValue.'</label></div>';
-                    }
-                    break;
+                    $output .= '</div>';
+                break;
                 case 'checkbox':
                     $trimString = str_replace(" ","",$field['title']);
                     $value = get_post_meta( $post->ID, 'front-page', true );
@@ -183,57 +197,63 @@ function show_metaboxes( $post, $args ) {
                     } else {
                         $checked = null;
                     }
-                    $output .= '<div id="'.$id.'" class="radio"><label><input type="checkbox" '.$checked.' name="'.$id.'"value="yes"/>'.$field['title'].'</label></div>';
-                    break;
+                    $output .= '<div id="'.$id.'" '.$condition.' >';
+                        $output .= '<div id="'.$id.'" class="radio"><label><input type="checkbox" '.$checked.' name="'.$id.'"value="yes"/>'.$field['title'].'</label></div>';
+                    $output .= '</div>';
+                break;
                 case 'select-staff':
-                    $meta =  maybe_unserialize( get_post_meta( $post->ID, 'director', true ) );
-                    $output .= '<label for="' . $id . '">' . $field['title'] . '</label><br>';
-                    $args = wp_parse_args( $query_args, array(
-                        'post_type'   => 'staff',
-                        'numberposts' => -1,
-                    ));
-                    $posts = get_posts( $args );
-                    $programmeDirectors = array();
-                    foreach($posts as $post){
-                        $id = $post->ID;
-                        $Grouparg = array(
-                            'hide_empty'    => true
-                        );
-                        $groups = get_terms( 'group', $Grouparg );
-                        foreach($groups as $group){
-                            if($group->slug == 'programme-directors'){
-                                array_push($programmeDirectors, $post->post_title);
+                    $output .= '<div id="'.$id.'" '.$condition.' >';
+                        $meta =  maybe_unserialize( get_post_meta( $post->ID, 'director', true ) );
+                        $output .= '<label for="' . $id . '">' . $field['title'] . '</label><br>';
+                        $args = wp_parse_args( $query_args, array(
+                            'post_type'   => 'staff',
+                            'numberposts' => -1,
+                        ));
+                        $posts = get_posts( $args );
+                        $programmeDirectors = array();
+                        foreach($posts as $post){
+                            $id = $post->ID;
+                            $Grouparg = array(
+                                'hide_empty'    => true
+                            );
+                            $groups = get_terms( 'group', $Grouparg );
+                            foreach($groups as $group){
+                                if($group->slug == 'programme-directors'){
+                                    array_push($programmeDirectors, $post->post_title);
+                                }
                             }
                         }
-                    }
-                    $output .= '<select id="' . $id . '" name="selectDirector"><option disabled selected>Select a Programme Director</option><option value="">None</option>';
-                    foreach($programmeDirectors as $programmeDirector){
-                        if ( $meta == $programmeDirector ) {
-                            $selected = 'selected';
-                        } else {
-                            $selected = null;
+                        $output .= '<select id="' . $id . '" name="selectDirector"><option disabled selected>Select a Programme Director</option><option value="">None</option>';
+                        foreach($programmeDirectors as $programmeDirector){
+                            if ( $meta == $programmeDirector ) {
+                                $selected = 'selected';
+                            } else {
+                                $selected = null;
+                            }
+                            $output .= '<option value="'.$programmeDirector.'" '.$selected.'>'.$programmeDirector.'</option>';
                         }
-                        $output .= '<option value="'.$programmeDirector.'" '.$selected.'>'.$programmeDirector.'</option>';
-                    }
-                    $output .= '</select>';
-                    break;
+                        $output .= '</select>';
+                    $output .= '</div>';
+                break;
                 case 'list':
-                    $meta =  get_post_meta( $post->ID, $id, true );
-                    if($meta){
-                        $meta = str_replace('[', '', $meta);
-                        $meta = str_replace(']', '', $meta);
-                        $meta = str_replace('"', '', $meta);
-                        $meta = $array = explode(',', $meta);
-                    }
-                    $output .= '<div class="list"><label for="' . $id . '">' . $field['title'] . '</label>';
-                    $output .= '<input type="text" class="customInput" id=""><ul>';
-                    if($meta){
-                        foreach($meta as $value){
-                            $output .= '<li><span class="list-value">'.$value.'</span> - <span class="remove"><a href="#">remove</a></span></li>';
+                    $output .= '<div id="'.$id.'" '.$condition.' >';
+                        $meta =  get_post_meta( $post->ID, $id, true );
+                        if($meta){
+                            $meta = str_replace('[', '', $meta);
+                            $meta = str_replace(']', '', $meta);
+                            $meta = str_replace('"', '', $meta);
+                            $meta = $array = explode(',', $meta);
                         }
-                    }
-                    $output .= '</ul><button class="list-item-button">Add</button><input type="hidden" name="'.$field['label'].'" value=""></div>';
-                    break;
+                        $output .= '<div class="list"><label for="' . $id . '">' . $field['title'] . '</label>';
+                        $output .= '<input type="text" class="customInput" id=""><ul>';
+                        if($meta){
+                            foreach($meta as $value){
+                                $output .= '<li><span class="list-value">'.$value.'</span> - <span class="remove"><a href="#">remove</a></span></li>';
+                            }
+                        }
+                        $output .= '</ul><button class="list-item-button">Add</button><input type="hidden" name="'.$field['label'].'" value=""></div>';
+                    $output .= '</div>';
+                break;
             }
         }
     }
