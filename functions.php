@@ -53,4 +53,27 @@ require_once get_template_directory() . '/inc/custom_post_types.php';
 
 require_once get_template_directory() . '/inc/custom_taxonomies.php';
 
+require_once get_template_directory() . '/inc/disable_gutenberg.php';
+
 add_image_size( 'about-thumb', 400, 400, TRUE );
+
+function wp_editor_fontsize_filter($buttons){
+    array_shift($buttons);
+    array_unshift($buttons, 'fontsizeselect');
+    array_unshift($buttons, 'formatselect');
+    return $buttons;
+}
+add_filter('mce_buttons_2', 'wp_editor_fontsize_filter');
+
+
+function restrict_post_deletion($post_id) {
+    $protectedPages = array(20, 245, 237, 355, 243, 24, 43, 4, 22, 6, 473);
+    $userid = get_current_user_id();
+    if( $userid !== 1 ) {
+        if( in_array($post_id , $protectedPages) ) {
+            exit("Sorry you can't delete this page. The page you were trying to delete is protected. Contact Super Admin for more information.");
+        }
+    }
+}
+add_action('wp_trash_post', 'restrict_post_deletion', 10, 1);
+add_action('before_delete_post', 'restrict_post_deletion', 10, 1);
