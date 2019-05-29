@@ -12,7 +12,7 @@ get_header(); ?>
         <div class="col-12">
             <?php if(have_posts()): ?>
                 <?php while(have_posts()): the_post();?>
-                    <p><?php the_content(); ?></p>
+                    <p class="contentRow"><?php the_content(); ?></p>
                 <?php endwhile; ?>
             <?php endif; ?>
         </div>

@@ -11,7 +11,7 @@
             <div class="col-12 col-md-9">
                 <?php if(have_posts()): ?>
                     <?php while(have_posts()): the_post();?>
-                        <div class="row">
+                        <div class="row contentRow">
                             <?php get_template_part('blog/content',get_post_format()); ?>
                         </div>
                         <hr>

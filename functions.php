@@ -12,6 +12,12 @@ function customThemeEnqueues(){
     if(is_front_page()){
         wp_enqueue_script('recruitmentScript', get_template_directory_uri() . '/assets/js/recruitment-scroll.js', array(), '1.2.0', true);
     }
+
+    if(is_page_template( 'page-map.php' )){
+        wp_enqueue_script('googlemaps', 'https://maps.googleapis.com/maps/api/js?&key=AIzaSyCFWkdTG4gbyimeUcz2mU1BNY2FyNOpDD4', array(), '1.0.0', true);
+
+        wp_enqueue_script('mapScript', get_template_directory_uri() . '/assets/js/map.js', array(), '1.0.2', true);
+    }
 }
 add_action('wp_enqueue_scripts', 'customThemeEnqueues');
 

@@ -188,3 +188,37 @@ body:not(.home) {
   background: #6AAC70;
   color: #fff;
 }
+
+#map {
+  width: 100%;
+  height: 500px;
+  margin-bottom: 1em;
+  background-color: grey;
+}
+
+.contentRow {
+  word-wrap: break-word;
+}
+
+ul.take_part_list,
+ul.cant_take_part_list {
+  padding-left: 20px;
+  list-style: none;
+}
+
+ul.take_part_list li,
+ul.cant_take_part_list li {
+  margin-bottom: 10px;
+}
+
+ul.take_part_list li:before {
+  font-family: 'FontAwesome';
+  content: '\f00c';
+  margin: 0 5px 0 -15px;
+}
+
+ul.cant_take_part_list li:before {
+  font-family: 'FontAwesome';
+  content: '\f00d';
+  margin: 0 5px 0 -15px;
+}

@@ -24,9 +24,7 @@
         <nav class="navbar navbar-expand-md navbar-light fixed-top bg-whiteTrans">
             <?php if ( is_admin_bar_showing() ) echo '<div style="padding-top: 32px;"></div>';?>
             <div class="container">
-                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-controls="bs-example-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
+
                 <?php
                     $blog_info = get_bloginfo( 'title' );
                     $url = home_url();
@@ -38,6 +36,9 @@
                 <?php else: ?>
                     <a class="navbar-brand" href="<?= esc_url( $url ); ?>"><?= $blog_info  ?></a>
                 <?php endif; ?>
+                <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-controls="bs-example-navbar-collapse-1" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
                 <?php
                     wp_nav_menu( array(
                         'theme_location'    => 'Primary',
