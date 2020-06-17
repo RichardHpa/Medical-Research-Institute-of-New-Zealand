@@ -107,10 +107,7 @@
                     <div class="row">
                         <div class="col-12">
                             <p>
-                                The Institute regularly needs volunteers for studies, we currently have the following requirements.
-                                If you don't meet the criteria below but are still interested in volunteering for research studies,
-                                please contact Mathew mathew.williams@mrinz.ac.nz (or 04-805-0243) so that we can get in touch when
-                                future opportunities arise.
+                                The Institute regularly needs volunteers for studies, we currently have the following requirements. If you don't meet the criteria below but are still interested in volunteering for research studies, please contact Melissa Black <a href="mailto:melissa.black@mrinz.ac.nz">melissa.black@mrinz.ac.nz</a> (or 04-805-0267) so that we can get in touch when future opportunities arise.
                             </p>
                             <hr>
                                 <ul class="recruiting">

@@ -159,7 +159,7 @@ function newtheme_customize_css(){
                     background-position: <?php echo get_theme_mod('first_section_image_position', 'center'); ?>;
                 }
 
-            .section-1{
+            .section-2{
                 background-color: <?php echo get_theme_mod('second_block_colour', '#cdcdcd'); ?>;
                 color: <?php echo get_theme_mod('second_block_text_colour', '#000000'); ?>;
             }
